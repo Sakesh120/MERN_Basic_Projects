@@ -4,22 +4,21 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <>
-      <nav className="bg-gray-700 text-white  px-10 py-15 flex justify-between items-center">
-        <h1 className="text-2xl">
-          <Link to="/">TO-DO</Link>
+      <nav className="bg-gray-700 text-white flex justify-around items-center sticky top-0 shadow-md shadow-gray-600 rounded-sm ">
+        <h1 className="text-2xl font-bold text-yellow-500 ">
+          <Link to="/">
+            <span className="text-3xl text-white animate-pulse ">My</span> TO-DO
+          </Link>
         </h1>
         <ul className="flex gap-5 [*&]:text-xl">
           <li>
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/list">List</Link>
           </li>
           <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-          <li>
-            <Link to="/service">Service</Link>
+            <Link to="/addTask">AddTask</Link>
           </li>
         </ul>
       </nav>

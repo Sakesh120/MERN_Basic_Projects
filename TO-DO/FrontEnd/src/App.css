@@ -1,11 +1,11 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
 body {
   height: 100%;
   width: 100%;
+  background-color: #e7dede;
+}
+
+nav {
+  padding: 7px 36px;
+  justify-content: space-between;
+  color: rgb(236, 236, 251);
 }
