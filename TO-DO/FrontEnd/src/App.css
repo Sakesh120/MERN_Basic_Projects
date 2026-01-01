@@ -9,3 +9,21 @@ nav {
   justify-content: space-between;
   color: rgb(236, 236, 251);
 }
+
+/* list page */
+
+.list-header {
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  box-shadow: 1px 1px 2px #333;
+  border-radius: 5px;
+}
+
+.list-item {
+  padding: 10px;
+  border: 1px solid #877e7e;
+  border-radius: 5px;
+  background-color: #ebe5e5;
+}
