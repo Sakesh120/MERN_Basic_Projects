@@ -17,6 +17,7 @@ const SignUp = () => {
     if (result) {
       console.log(result);
       document.cookie = `token=${result.token}`;
+      navigate("/list");
     } else {
       alert("error Occured");
     }

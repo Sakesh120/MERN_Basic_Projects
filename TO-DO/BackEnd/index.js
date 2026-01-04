@@ -3,11 +3,18 @@ import { collectionname, connection } from "./dbconfig.js";
 import cors from "cors";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: " http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   const userdata = req.body;
@@ -24,12 +31,44 @@ app.post("/signup", async (req, res) => {
           token,
         });
       });
+    }
+  } else {
+    res.send({
+      success: false,
+      msg: "signup not done",
+    });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const userdata = req.body;
+  console.log(userdata);
+  if (userdata.email && userdata.password) {
+    const db = await connection();
+    const collection = db.collection("users");
+    const result = await collection.findOne({
+      email: userdata.email,
+      password: userdata.password,
+    });
+    if (result) {
+      jwt.sign(userdata, "Google", { expiresIn: "10d" }, (error, token) => {
+        res.send({
+          success: true,
+          msg: "login done",
+          token,
+        });
+      });
     } else {
       res.send({
         success: false,
-        msg: "signup not done",
+        msg: "user Not found",
       });
     }
+  } else {
+    res.send({
+      success: false,
+      msg: "login not done",
+    });
   }
 });
 
@@ -51,7 +90,7 @@ app.post("/add-task", async (req, res) => {
   }
 });
 
-app.get("/tasks", async (req, res) => {
+app.get("/tasks", verifyJWTToken, async (req, res) => {
   const db = await connection();
   const collection = db.collection(collectionname);
   const result = await collection.find().toArray();
@@ -148,5 +187,19 @@ app.delete("/delete-multiple", async (req, res) => {
     });
   }
 });
+
+function verifyJWTToken(req, res, next) {
+  // console.log("verifyJWTToken", req.cookies["token"]);
+  const token = req.cookies["token"];
+  jwt.verify(token, "Google", (error, decoded) => {
+    if (error) {
+      return res.send({
+        msg: "invalid Token",
+        success: false,
+      });
+    }
+    next();
+  });
+}
 
 app.listen(3200);

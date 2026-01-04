@@ -1,9 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userData, setUserData] = useState();
-
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    const response = await fetch("http://localhost:3200/login", {
+      method: "post",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-Type": "Application/Json",
+      },
+    });
+    const result = await response.json();
+    if (result) {
+      console.log(result);
+      document.cookie = `token=${result.token}`;
+      navigate("/list");
+    } else {
+      alert("error Occured");
+    }
+  };
   return (
     <>
       <div className=" max-w-[40vw] max-h-[60vh] p-4 m-auto relative top-20 rounded-[15px] flex flex-col items-center ">
@@ -37,7 +54,7 @@ const Login = () => {
           />
 
           <button
-            onClick={() => console.log(userData)}
+            onClick={handleLogin}
             className="bg-blue-400 rounded-[5px]  py-1 hover:bg-blue-500 cursor-pointer text-white font-bold"
           >
             Login
