@@ -1,12 +1,37 @@
 import express, { urlencoded } from "express";
 import { collectionname, connection } from "./dbconfig.js";
 import cors from "cors";
-import { CURSOR_FLAGS, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
+import jwt from "jsonwebtoken";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
+
+app.post("/signup", async (req, res) => {
+  const userdata = req.body;
+  console.log(userdata);
+  if (userdata.email && userdata.password) {
+    const db = await connection();
+    const collection = db.collection("users");
+    const result = await collection.insertOne(userdata);
+    if (result) {
+      jwt.sign(userdata, "Google", { expiresIn: "10d" }, (error, token) => {
+        res.send({
+          success: true,
+          msg: "signup done",
+          token,
+        });
+      });
+    } else {
+      res.send({
+        success: false,
+        msg: "signup not done",
+      });
+    }
+  }
+});
 
 app.post("/add-task", async (req, res) => {
   const db = await connection();
@@ -89,6 +114,27 @@ app.delete("/delete/:id", async (req, res) => {
   const db = await connection();
   const collection = db.collection(collectionname);
   const result = await collection.deleteOne({ _id: new ObjectId(id) });
+  if (result) {
+    res.send({
+      message: "task  deleted",
+      success: true,
+      data: result,
+    });
+  } else {
+    res.send({
+      message: "error agaya oye try later",
+      success: false,
+    });
+  }
+});
+
+app.delete("/delete-multiple", async (req, res) => {
+  const ids = req.body;
+  console.log(ids);
+  const deleteTaskIds = ids.map((item) => new ObjectId(item));
+  const db = await connection();
+  const collection = db.collection(collectionname);
+  const result = await collection.deleteMany({ _id: { $in: deleteTaskIds } });
   if (result) {
     res.send({
       message: "task  deleted",

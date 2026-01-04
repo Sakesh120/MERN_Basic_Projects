@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "jsonwebtoken": "^7.4.1",
     "mongodb": "^7.0.0",
     "nodemon": "^3.1.11"
   }
