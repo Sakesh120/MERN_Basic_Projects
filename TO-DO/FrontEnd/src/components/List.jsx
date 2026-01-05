@@ -24,10 +24,13 @@ const List = () => {
   const deleteTask = async (id) => {
     let item = await fetch(`http://localhost:3200/delete/${id}`, {
       method: "delete",
+      credentials: "include",
     });
     item = await item.json();
     if (item.success) {
       getListData();
+    } else {
+      alert("error occured");
     }
   };
 
@@ -65,10 +68,13 @@ const List = () => {
       headers: {
         "Content-Type": "Application/Json",
       },
+      credentials: "include",
     });
     item = await item.json();
     if (item.success) {
       getListData();
+    } else {
+      alert("error occured");
     }
   };
 

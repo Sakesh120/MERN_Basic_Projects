@@ -1,9 +1,17 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { use } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [userData, setUserData] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("login")) {
+      navigate("/list");
+    }
+  });
 
   const handleSignUp = async () => {
     const response = await fetch("http://localhost:3200/signup", {
@@ -17,6 +25,8 @@ const SignUp = () => {
     if (result) {
       console.log(result);
       document.cookie = `token=${result.token}`;
+      localStorage.setItem("login", userData.email);
+      window.dispatchEvent(new Event("storage-change"));
       navigate("/list");
     } else {
       alert("error Occured");

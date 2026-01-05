@@ -12,13 +12,14 @@ const AddTask = () => {
       headers: {
         "Content-Type": "Application/Json",
       },
+      credentials: "include",
     });
     result = await result.json();
-    if (result) {
+    if (result.success) {
       navigate("/list");
       console.log("new task added");
     } else {
-      console.log("error something");
+      alert("try after some time");
     }
   };
   return (

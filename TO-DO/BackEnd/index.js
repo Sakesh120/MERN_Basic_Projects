@@ -72,7 +72,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/add-task", async (req, res) => {
+app.post("/add-task", verifyJWTToken, async (req, res) => {
   const db = await connection();
   const collection = db.collection(collectionname);
   const result = await collection.insertOne(req.body);
@@ -108,7 +108,7 @@ app.get("/tasks", verifyJWTToken, async (req, res) => {
   }
 });
 
-app.get("/task/:id", async (req, res) => {
+app.get("/task/:id", verifyJWTToken, async (req, res) => {
   const id = req.params.id;
   const db = await connection();
   const collection = db.collection(collectionname);
@@ -127,7 +127,7 @@ app.get("/task/:id", async (req, res) => {
   }
 });
 
-app.put("/updateTask", async (req, res) => {
+app.put("/updateTask", verifyJWTToken, async (req, res) => {
   const db = await connection();
   const collection = db.collection(collectionname);
   const { _id, ...rest } = req.body;
@@ -148,7 +148,7 @@ app.put("/updateTask", async (req, res) => {
   }
 });
 
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete/:id", verifyJWTToken, async (req, res) => {
   const id = req.params.id;
   const db = await connection();
   const collection = db.collection(collectionname);
@@ -167,7 +167,7 @@ app.delete("/delete/:id", async (req, res) => {
   }
 });
 
-app.delete("/delete-multiple", async (req, res) => {
+app.delete("/delete-multiple", verifyJWTToken, async (req, res) => {
   const ids = req.body;
   console.log(ids);
   const deleteTaskIds = ids.map((item) => new ObjectId(item));

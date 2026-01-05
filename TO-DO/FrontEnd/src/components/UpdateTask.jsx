@@ -10,7 +10,9 @@ const UpdateTask = () => {
   }, [id]);
 
   const getTask = async (id) => {
-    let task = await fetch(`http://localhost:3200/task/${id}`);
+    let task = await fetch(`http://localhost:3200/task/${id}`, {
+      credentials: "include",
+    });
     task = await task.json();
     if (task.data) {
       setTaskData(task.data);
@@ -26,10 +28,13 @@ const UpdateTask = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     task = await task.json();
     if (task) {
       naviagte("/list");
+    } else {
+      alert("error occured");
     }
   };
 

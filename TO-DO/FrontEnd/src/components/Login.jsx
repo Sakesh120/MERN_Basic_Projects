@@ -1,9 +1,17 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userData, setUserData] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("login")) {
+      navigate("/list");
+    }
+  });
+
   const handleLogin = async () => {
     const response = await fetch("http://localhost:3200/login", {
       method: "post",
@@ -13,9 +21,10 @@ const Login = () => {
       },
     });
     const result = await response.json();
-    if (result) {
-      console.log(result);
+    if (result.success) {
       document.cookie = `token=${result.token}`;
+      localStorage.setItem("login", userData.email);
+      window.dispatchEvent(new Event("storage-change"));
       navigate("/list");
     } else {
       alert("error Occured");
