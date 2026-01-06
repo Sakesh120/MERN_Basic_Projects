@@ -79,16 +79,16 @@ const List = () => {
   };
 
   return (
-    <div className="flex flex-col items-center my-5">
-      <h1 className="text-3xl font-bold text-center ">My Tasks</h1>
+    <div className="flex flex-col items-center lg:my-5 my-1">
+      <h1 className="lg:text-3xl text-2xl font-bold text-center ">My Tasks</h1>
       <button
         onClick={deleteMultiple}
-        className="self-start ml-[13vw] text-white w-25 font-semibold cursor-pointer hover:bg-red-800 rounded-sm p-1 px-2 bg-red-600"
+        className="self-start md:ml-[13vw] ml-2 text-white md:w-25 font-semibold cursor-pointer hover:bg-red-800 rounded-sm md:p-1 px-1 md:px-2 text-[12px] md:text-lg bg-red-600"
       >
         Delete All
       </button>
-      <ul className="grid gap-2.5 list-none p-0 m-5 grid-cols-[50px_60px_1fr_2fr_200px]">
-        <li onChange={selectAll} className="list-header text-center ">
+      <ul className="grid gap-1 md:gap-2.5 list-none p-0 md:m-5 m-1 md:grid-cols-[50px_60px_1fr_2fr_200px] grid-cols-[30px_50px_1fr_2fr_100px]">
+        <li onChange={selectAll} className="list-header text-center  ">
           <input type="checkbox" className="cursor-pointer" />
         </li>
         <li className="list-header text-center">S.NO</li>
@@ -107,18 +107,18 @@ const List = () => {
                 />
               </li>
               <li className="list-item text-center">{index + 1}</li>
-              <li className="list-item">{item.title}</li>
+              <li className="list-item ">{item.title}</li>
               <li className="list-item">{item.description}</li>
-              <li className=" bg-[#ebe5e5] rounded-[5px] border-[#877e7e] flex justify-center items-center gap-3 border text-center">
+              <li className=" bg-[#ebe5e5] rounded-[5px] border-[#877e7e] flex justify-center items-center md:gap-3 gap-1 border text-center">
                 <button
                   onClick={() => deleteTask(item._id)}
-                  className=" text-white w-[40%] font-semibold cursor-pointer hover:bg-red-800 rounded-sm p-1 px-2 bg-red-600"
+                  className=" text-white md:w-[40%] text-[12px] md:text-lg  font-semibold cursor-pointer hover:bg-red-800 rounded-sm md:p-1 md:px-2 p-[0.2px] px-1 bg-red-600"
                 >
                   Delete
                 </button>
                 <Link
                   to={`/update/${item._id}`}
-                  className=" text-white w-[40%] font-semibold cursor-pointer hover:bg-green-700 rounded-sm p-1 px-2 bg-green-600"
+                  className=" text-white md:w-[40%] text-[12px] md:text-lg  font-semibold cursor-pointer hover:bg-green-700 rounded-sm md:p-1 md:px-2 p-[0.2px] px-1 bg-green-600"
                 >
                   Update
                 </Link>

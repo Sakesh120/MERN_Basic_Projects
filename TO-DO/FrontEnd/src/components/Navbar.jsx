@@ -22,14 +22,16 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-gray-700 text-white flex justify-around items-center sticky top-0 shadow-md shadow-gray-600  ">
-        <h1 className="text-2xl font-bold text-yellow-500 ">
-          <Link>
-            <span className="text-3xl text-white animate-pulse  ">My</span>
+      <nav className="bg-gray-700 text-white flex justify-around items-center sticky top-0 shadow-md shadow-gray-600 z-9999 ">
+        <h1 className="lg:text-2xl text-md font-bold text-yellow-500 ">
+          <Link to="/">
+            <span className="lg:text-3xl text-xl text-white animate-pulse  ">
+              My
+            </span>
             TO-DO
           </Link>
         </h1>
-        <ul className="flex gap-5 [*&]:text-xl">
+        <ul className="flex gap-5 lg:[*&]:text-xl *:text-md">
           {login ? (
             <>
               <li>
