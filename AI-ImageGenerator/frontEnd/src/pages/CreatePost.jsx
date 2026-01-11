@@ -14,9 +14,6 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const generateImage = () => {};
-
-  const handleSubmit = () => {};
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -24,6 +21,38 @@ const CreatePost = () => {
     const randomPrompt = getRandomPromts(form.prompt);
     setForm({ ...form, prompt: randomPrompt });
   };
+
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch("http://localhost:8080/api/v1/dalle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: form.prompt }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `API Error: ${response.status}`);
+        }
+
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+      } catch (err) {
+        console.error("Generate Image Error:", err);
+        alert(err.message || "Failed to generate image");
+      } finally {
+        setGeneratingImg(false);
+      }
+    } else {
+      alert("Please enter the prompt");
+    }
+  };
+
+  const handleSubmit = (e) => {};
 
   return (
     <section className="max-w-7xl mx-auto ">
